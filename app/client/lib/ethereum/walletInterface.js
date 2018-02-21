@@ -21,7 +21,7 @@ contractVersions = [
         address: '0x4efc6389b88569a375668b7b3bd4a9b6c8f4a942'
     },
     // 1 better daily limit
-    { 
+    {
         original: '8207780d6fb31803373aff97360562231187ebb0da6b4678eeb68ceb16897509',
         stub: '',
         address: '0x273930d21e01ee25e4c219b63259d214872220a2'
@@ -33,14 +33,11 @@ contractVersions = [
 web3.eth.getBlock(0, function(e, res){
     if(!e){
         switch(res.hash) {
-            case '0xd4e56740f876aef8c010b86a40d5f56745a118d0906a34e69aec8c0db1cb8fa3':
+            case '0x4d7df65052bb21264d6ad2d6fe2d5578a36be12f71bf8d0559b0c15c4dc539b5':
                 Session.set('network', 'main');
                 break;
-            case '0x6341fd3daf94b748c72ced5a5b26028f2474f5f00d824504e4fa37a75767e177':
-                Session.set('network', 'rinkeby');
-                break;
-            case '0x41941023680923e0fe4d74a34bdac8141f2540e3ae90623718e47d66d1ca4a2d':
-                Session.set('network', 'ropsten');
+            case '0x526339a5483bb1d4550cb9be181eae931c20f5b9648470bf9b8ef8db5171f82f':
+                Session.set('network', 'testnet');
                 break;
             default:
                 Session.set('network', 'private');
@@ -133,11 +130,11 @@ var checkCodeOnAddress = function(address, callback) {
                 if(address === testNetAddress) {
                     console.log('Use Test-net wallet as code base for stubs on address: ', address);
                 }
-            
+
             // use testnet or private net address, or re-deploy
             } else {
 
-                callback();                
+                callback();
             }
         } else {
             GlobalNotification.error({
@@ -163,7 +160,7 @@ checkForOriginalWallet = function() {
     });
 
     // Only check for the wallet if user has enough funds to deploy it
-    if (enoughBalance) {     
+    if (enoughBalance) {
         // see if the original wallet is deployed, if not re-deploy on testnet
         checkCodeOnAddress(mainNetAddress, function() {
             checkCodeOnAddress(testNetAddress, function() {
@@ -189,7 +186,7 @@ checkForOriginalWallet = function() {
                     deployTestnetWallet();
             });
         });
-    } 
+    }
 }
 
 
@@ -213,7 +210,7 @@ checkWalletOwners = function(address) {
             myContract.m_numOwners(function(e, numberOfOwners){
                 if(!e) {
                     numberOfOwners = numberOfOwners.toNumber();
-                    
+
                     if(numberOfOwners > 0) {
                         var owners = [];
 
@@ -223,10 +220,10 @@ checkWalletOwners = function(address) {
                                 web3.eth.getStorageAt(address, 2+i, function(e, ownerAddress){
                                     if(!e) {
                                         ownerAddress = ownerAddress.replace('0x000000000000000000000000','0x');
-                                        
+
                                         if(owners.length > numberOfOwners)
                                             return resolve();
-                                        
+
                                         if(web3.isAddress(ownerAddress) && ownerAddress !== '0x0000000000000000000000000000000000000000') {
                                             myContract.isOwner.call(ownerAddress, {from: ownerAddress}, function(e, isOwner){
                                                 if(!e && isOwner) {

@@ -415,7 +415,7 @@ observeTransactions = function(){
             }
 
             // If on main net, add price data
-            if( Session.get('network') == 'main' && 
+            if( Session.get('network') == 'main' &&
                 newDocument.timestamp &&
                (!newDocument.exchangeRates ||
                !newDocument.exchangeRates.btc ||
@@ -423,7 +423,7 @@ observeTransactions = function(){
                !newDocument.exchangeRates.eur ||
                !newDocument.exchangeRates.gbp ||
                !newDocument.exchangeRates.brl)) {
-                var url = 'https://min-api.cryptocompare.com/data/pricehistorical?fsym=ETH&tsyms=BTC,USD,EUR,GBP,BRL&ts='+ newDocument.timestamp;
+                var url = 'https://min-api.cryptocompare.com/data/pricehistorical?fsym=ELLA&tsyms=BTC,USD,CAD,EUR,GBP,AUD,BRL&ts='+ newDocument.timestamp;
 
                 if(typeof mist !== 'undefined')
                     url += '&extraParams=Mist-'+ mist.version;
